@@ -1,0 +1,24 @@
+<schemalist gettext-domain="gnome-shell-extensions">
+  <schema id="org.gnome.shell.extensions.focus-changer" path="/org/gnome/shell/extensions/focus-changer/">
+    <key name="focus-up" type="as">
+      <default><![CDATA[['<Super>k']]]></default>
+      <summary>Focus up</summary>
+      <description>Focus up</description>
+    </key>
+    <key name="focus-down" type="as">
+      <default><![CDATA[['<Super>j']]]></default>
+      <summary>Focus down</summary>
+      <description>Focus down</description>
+    </key>
+    <key name="focus-right" type="as">
+      <default><![CDATA[['<Super>l']]]></default>
+      <summary>Focus right</summary>
+      <description>Focus right</description>
+    </key>
+    <key name="focus-left" type="as">
+      <default><![CDATA[['<Super>h']]]></default>
+      <summary>Focus left</summary>
+      <description>Focus left</description>
+    </key>
+  </schema>
+</schemalist>
