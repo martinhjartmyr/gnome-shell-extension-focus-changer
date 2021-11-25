@@ -4,10 +4,10 @@ const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
 const ExtensionUtils = imports.misc.extensionUtils;
 
-const COLUMN_ID          = 0;
+const COLUMN_ID = 0;
 const COLUMN_DESC = 1;
-const COLUMN_KEY         = 2;
-const COLUMN_MODS        = 3;
+const COLUMN_KEY = 2;
+const COLUMN_MODS = 3;
 
 // eslint-disable-next-line no-unused-vars
 function init() {
