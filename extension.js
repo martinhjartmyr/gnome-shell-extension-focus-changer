@@ -12,15 +12,12 @@ const SCHEMA_FOCUS_LEFT = 'focus-left';
 
 class FocusChanger {
     constructor() {
-        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.focus-changer');
         this._workspaceManager = global.workspace_manager;
         this._keyFocusUpId = null;
         this._keyFocusDownId = null;
         this._keyFocusRightId = null;
         this._keyFocusLeftId = null;
         this._activeWindow = null;
-
-        this._bindShortcut();
     }
 
     changeFocus(id) {
@@ -257,12 +254,14 @@ class FocusChanger {
 
     enable() {
         log(`Enabling ${Me.metadata.name} version ${Me.metadata.version}`);
+        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.focus-changer');
         this._bindShortcut();
     }
 
     disable() {
         log(`Disabling ${Me.metadata.name} version ${Me.metadata.version}`);
         this._unbindShortcut();
+        this._settings = null;
     }
 }
 
