@@ -19,12 +19,14 @@ install and enable the latest version.
 
 ### Manual:
 
- Clone the repo:
+ 1. Clone the repo:
 ```
-$ git clone https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer.git $HOME/.local/share/gnome-shell/extensions/focus-changer@heartmire
+git clone https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer.git $HOME/.local/share/gnome-shell/extensions/focus-changer@heartmire
 ```
 
-Enable the extension:
+2. Restart GNOME, `ALT-F2` and run `r` to restart.
+
+3. Enable the extension:
 ```
-$ gnome-extensions enable focus-changer@heartmire
+gnome-extensions enable focus-changer@heartmire
 ```
