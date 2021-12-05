@@ -21,7 +21,7 @@ class FocusChanger {
     }
 
     changeFocus(id) {
-        // log('focus-changer', id);
+    // log('focus-changer', id);
         const { activeWindow, activeRect } = this._getActiveWindow();
         if (!activeWindow) {
             this._activeWindow = null;
@@ -49,7 +49,6 @@ class FocusChanger {
         if (!activeMonitor || !monitors.length)
             return null;
 
-
         let bestMonitorCandidate = null;
         switch (id) {
         case SCHEMA_FOCUS_UP:
@@ -57,7 +56,10 @@ class FocusChanger {
                 if (m.rect.y < activeMonitor.y) {
                     if (!bestMonitorCandidate)
                         bestMonitorCandidate = m;
-                    else if (Math.abs(activeMonitor.x - m.rect.x) < Math.abs(activeMonitor.x - bestMonitorCandidate.rect.x))
+                    else if (
+                        Math.abs(activeMonitor.x - m.rect.x) <
+              Math.abs(activeMonitor.x - bestMonitorCandidate.rect.x)
+                    )
                         bestMonitorCandidate = m;
                 }
             }
@@ -67,7 +69,10 @@ class FocusChanger {
                 if (m.rect.y > activeMonitor.y) {
                     if (!bestMonitorCandidate)
                         bestMonitorCandidate = m;
-                    else if (Math.abs(activeMonitor.x - m.rect.x) < Math.abs(activeMonitor.x - bestMonitorCandidate.rect.x))
+                    else if (
+                        Math.abs(activeMonitor.x - m.rect.x) <
+              Math.abs(activeMonitor.x - bestMonitorCandidate.rect.x)
+                    )
                         bestMonitorCandidate = m;
                 }
             }
@@ -77,7 +82,10 @@ class FocusChanger {
                 if (m.rect.x > activeMonitor.x) {
                     if (!bestMonitorCandidate)
                         bestMonitorCandidate = m;
-                    else if (Math.abs(activeMonitor.y - m.rect.y) < Math.abs(activeMonitor.y - bestMonitorCandidate.rect.y))
+                    else if (
+                        Math.abs(activeMonitor.y - m.rect.y) <
+              Math.abs(activeMonitor.y - bestMonitorCandidate.rect.y)
+                    )
                         bestMonitorCandidate = m;
                 }
             }
@@ -87,7 +95,10 @@ class FocusChanger {
                 if (m.rect.x < activeMonitor.x) {
                     if (!bestMonitorCandidate)
                         bestMonitorCandidate = m;
-                    else if (Math.abs(activeMonitor.y - m.rect.y) < Math.abs(activeMonitor.y - bestMonitorCandidate.rect.y))
+                    else if (
+                        Math.abs(activeMonitor.y - m.rect.y) <
+              Math.abs(activeMonitor.y - bestMonitorCandidate.rect.y)
+                    )
                         bestMonitorCandidate = m;
                 }
             }
@@ -96,7 +107,6 @@ class FocusChanger {
 
         if (bestMonitorCandidate)
             return bestMonitorCandidate.id;
-
 
         return null;
     }
@@ -166,8 +176,13 @@ class FocusChanger {
 
         if (!bestCandidate) {
             const newMonitor = this._getMonitorByDirection(id, monitor);
-            if (newMonitor !== null)
-                return this._getBestCandidate(id, newMonitor, this._activeWindow.get_display().get_monitor_geometry(monitor));
+            if (newMonitor !== null) {
+                return this._getBestCandidate(
+                    id,
+                    newMonitor,
+                    this._activeWindow.get_display().get_monitor_geometry(monitor)
+                );
+            }
         }
 
         return bestCandidate;
