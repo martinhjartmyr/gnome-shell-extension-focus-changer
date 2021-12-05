@@ -4,8 +4,8 @@
   "uuid": "focus-changer@heartmire",
   "version": 1.0,
   "shell-version": [
-    "40",
-    "41"
+    "3.36",
+    "3.38"
   ],
   "url": "https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer"
 }
