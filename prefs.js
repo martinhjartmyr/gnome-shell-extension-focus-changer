@@ -10,36 +10,32 @@ const COLUMN_KEY = 2;
 const COLUMN_MODS = 3;
 
 // eslint-disable-next-line no-unused-vars
-function init() {
-}
+function init() {}
 
 // eslint-disable-next-line no-unused-vars
 function buildPrefsWidget() {
     const settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.focus-changer');
 
     const prefsWidget = new Gtk.Grid({
-        margin_top: 20,
-        margin_bottom: 20,
-        margin_start: 20,
-        margin_end: 20,
+        margin: 20,
         row_spacing: 20,
     });
 
-    const keybindingLabel  = new Gtk.Label({
+    const keybindingLabel = new Gtk.Label({
         label: 'Keyboard shortcuts',
         hexpand: true,
         halign: Gtk.Align.START,
     });
     prefsWidget.attach(keybindingLabel, 0, 0, 1, 1);
 
-
     // Setup the store
     let store = new Gtk.ListStore();
-    store.set_column_types(
-        [GObject.TYPE_STRING, // COLUMN_ID
-            GObject.TYPE_STRING, // COLUMN_DESC
-            GObject.TYPE_INT,    // COLUMN_KEY
-            GObject.TYPE_INT]);  // COLUMN_MODS
+    store.set_column_types([
+        GObject.TYPE_STRING, // COLUMN_ID
+        GObject.TYPE_STRING, // COLUMN_DESC
+        GObject.TYPE_INT, // COLUMN_KEY
+        GObject.TYPE_INT, // COLUMN_MODS
+    ]);
 
     addKeybinding(store, settings, 'focus-up', 'Focus up');
     addKeybinding(store, settings, 'focus-down', 'Focus down');
@@ -51,7 +47,7 @@ function buildPrefsWidget() {
     treeView.headers_visible = false;
 
     // Desc text
-    let  renderer, column;
+    let renderer, column;
     renderer = new Gtk.CellRendererText();
     column = new Gtk.TreeViewColumn();
     column.expand = true;
@@ -70,36 +66,34 @@ function buildPrefsWidget() {
     treeView.append_column(column);
     prefsWidget.attach(treeView, 0, 1, 2, 1);
 
-
     // Events
-    renderer.connect('accel-edited',
-        (_, path, key, mods, __) => {
-            let [ok, iter] = store.get_iter_from_string(path);
-            if (!ok)
-                return;
+    renderer.connect('accel-edited', (_, path, key, mods, __) => {
+        let [ok, iter] = store.get_iter_from_string(path);
+        if (!ok)
+            return;
 
-            store.set(iter, [COLUMN_KEY, COLUMN_MODS], [key, mods]);
+        store.set(iter, [COLUMN_KEY, COLUMN_MODS], [key, mods]);
 
-            let id = store.get_value(iter, COLUMN_ID);
-            let accelString = Gtk.accelerator_name(key, mods);
-            settings.set_strv(id, [accelString]);
-        });
+        let id = store.get_value(iter, COLUMN_ID);
+        let accelString = Gtk.accelerator_name(key, mods);
+        settings.set_strv(id, [accelString]);
+    });
 
-    renderer.connect('accel-cleared',
-        (_, path) => {
-            let [ok, iter] = store.get_iter_from_string(path);
-            if (!ok)
-                return;
+    renderer.connect('accel-cleared', (_, path) => {
+        let [ok, iter] = store.get_iter_from_string(path);
+        if (!ok)
+            return;
 
-            store.set(iter, [COLUMN_KEY, COLUMN_MODS], [0, 0]);
+        store.set(iter, [COLUMN_KEY, COLUMN_MODS], [0, 0]);
 
-            let id = store.get_value(iter, COLUMN_ID);
-            settings.set_strv(id, []);
-        });
+        let id = store.get_value(iter, COLUMN_ID);
+        settings.set_strv(id, []);
+    });
+
+    prefsWidget.show_all();
 
     return prefsWidget;
 }
-
 
 function addKeybinding(model, settings, id, description) {
     // Get the current accelerator.
@@ -108,10 +102,8 @@ function addKeybinding(model, settings, id, description) {
     if (accelerator === null)
         [key, mods] = [0, 0];
     else
-        [, key, mods] = Gtk.accelerator_parse(settings.get_strv(id)[0]);
+        [key, mods] = Gtk.accelerator_parse(settings.get_strv(id)[0]);
 
     let row = model.insert(100);
-    model.set(row,
-        [COLUMN_ID, COLUMN_DESC, COLUMN_KEY, COLUMN_MODS],
-        [id,        description,        key,        mods]);
+    model.set(row, [COLUMN_ID, COLUMN_DESC, COLUMN_KEY, COLUMN_MODS], [id, description, key, mods]);
 }
