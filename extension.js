@@ -124,7 +124,12 @@ class FocusChanger {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (Math.abs(activeRect.x - rect.x) < Math.abs(activeRect.x - bestRect.x))
+                        if (rect.x === bestRect.x && rect.y > bestRect.y)
+                            bestCandidate = w;
+                        else if (
+                            rect.x !== bestRect.x &&
+                Math.abs(activeRect.x - rect.x) < Math.abs(activeRect.x - bestRect.x)
+                        )
                             bestCandidate = w;
                     }
                 }
@@ -138,7 +143,12 @@ class FocusChanger {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (Math.abs(activeRect.x - rect.x) < Math.abs(activeRect.x - bestRect.x))
+                        if (rect.x === bestRect.x && rect.y < bestRect.y)
+                            bestCandidate = w;
+                        else if (
+                            rect.x !== bestRect.x &&
+                Math.abs(activeRect.x - rect.x) < Math.abs(activeRect.x - bestRect.x)
+                        )
                             bestCandidate = w;
                     }
                 }
@@ -152,7 +162,12 @@ class FocusChanger {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (Math.abs(activeRect.y - rect.y) < Math.abs(activeRect.y - bestRect.y))
+                        if (rect.y === bestRect.y && rect.x < bestRect.x)
+                            bestCandidate = w;
+                        else if (
+                            rect.y !== bestRect.y &&
+                Math.abs(activeRect.y - rect.y) < Math.abs(activeRect.y - bestRect.y)
+                        )
                             bestCandidate = w;
                     }
                 }
@@ -166,7 +181,12 @@ class FocusChanger {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (Math.abs(activeRect.y - rect.y) < Math.abs(activeRect.y - bestRect.y))
+                        if (rect.y === bestRect.y && rect.x > bestRect.x)
+                            bestCandidate = w;
+                        else if (
+                            rect.y !== bestRect.y &&
+                Math.abs(activeRect.y - rect.y) < Math.abs(activeRect.y - bestRect.y)
+                        )
                             bestCandidate = w;
                     }
                 }
