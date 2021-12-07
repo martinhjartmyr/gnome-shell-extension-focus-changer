@@ -211,7 +211,7 @@ class FocusChanger {
     _getAllWindows(monitor) {
         const workspace = this._workspaceManager.get_active_workspace();
         const windows = workspace.list_windows();
-        return windows.filter(w => w.get_monitor() === monitor);
+        return windows.filter(w => w.get_monitor() === monitor && w.is_hidden() === false);
     }
 
     _getActiveWindow() {
