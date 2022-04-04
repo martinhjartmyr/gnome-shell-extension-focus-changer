@@ -5,7 +5,8 @@
   "version": 1.1,
   "shell-version": [
     "40",
-    "41"
+    "41",
+    "42"
   ],
   "url": "https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer"
 }
