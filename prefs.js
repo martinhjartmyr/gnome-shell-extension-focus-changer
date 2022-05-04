@@ -100,7 +100,7 @@ function addKeybinding(model, settings, id, description) {
     // Get the current accelerator.
     let accelerator = settings.get_strv(id)[0];
     let key, mods;
-    if (accelerator == null)
+    if (!accelerator)
         [key, mods] = [0, 0];
     else
         [, key, mods] = Gtk.accelerator_parse(accelerator);
