@@ -21,7 +21,6 @@ class FocusChanger {
     }
 
     changeFocus(id) {
-    // log('focus-changer', id);
         const { activeWindow, activeRect } = this._getActiveWindow();
         if (!activeWindow) {
             this._activeWindow = null;
@@ -285,13 +284,11 @@ class FocusChanger {
     }
 
     enable() {
-        log(`Enabling ${Me.metadata.name} version ${Me.metadata.version}`);
         this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.focus-changer');
         this._bindShortcut();
     }
 
     disable() {
-        log(`Disabling ${Me.metadata.name} version ${Me.metadata.version}`);
         this._unbindShortcut();
         this._settings = null;
     }
@@ -299,6 +296,5 @@ class FocusChanger {
 
 // eslint-disable-next-line no-unused-vars
 function init() {
-    log(`Initializing ${Me.metadata.name} version ${Me.metadata.version}`);
     return new FocusChanger();
 }
