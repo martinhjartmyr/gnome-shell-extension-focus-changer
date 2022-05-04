@@ -229,10 +229,7 @@ class FocusChanger {
             }
         }
 
-        if (focusedWindow)
-            return { activeWindow: focusedWindow, activeRect: focusedWindowRect };
-        else
-            return null;
+        return { activeWindow: focusedWindow, activeRect: focusedWindowRect };
     }
 
     _bindShortcut() {
