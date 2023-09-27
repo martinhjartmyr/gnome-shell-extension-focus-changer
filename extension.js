@@ -1,17 +1,20 @@
 'use strict';
 
-const { Shell, Meta } = imports.gi;
-const Main = imports.ui.main;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
+import Shell from 'gi://Shell';
+import Meta from 'gi://Meta';
+
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 const SCHEMA_FOCUS_UP = 'focus-up';
 const SCHEMA_FOCUS_DOWN = 'focus-down';
 const SCHEMA_FOCUS_RIGHT = 'focus-right';
 const SCHEMA_FOCUS_LEFT = 'focus-left';
 
-class FocusChanger {
-    constructor() {
+export default class FocusChanger extends Extension {
+    constructor(metadata) {
+        super(metadata);
         this._workspaceManager = global.workspace_manager;
         this._keyFocusUpId = null;
         this._keyFocusDownId = null;
@@ -284,7 +287,7 @@ class FocusChanger {
     }
 
     enable() {
-        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.focus-changer');
+        this._settings = this.getSettings('org.gnome.shell.extensions.focus-changer');
         this._bindShortcut();
     }
 
@@ -292,9 +295,4 @@ class FocusChanger {
         this._unbindShortcut();
         this._settings = null;
     }
-}
-
-// eslint-disable-next-line no-unused-vars
-function init() {
-    return new FocusChanger();
 }
