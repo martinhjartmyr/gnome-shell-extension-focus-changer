@@ -113,24 +113,34 @@ export default class FocusChanger extends Extension {
         return null;
     }
 
+    _getCenterX(rect){
+        return rect.x + rect.width/2;
+    }
+
+    _getCenterY(rect){
+        return rect.y - rect.height/2;
+    }
+
     _getBestCandidate(id, monitor, activeRect) {
         const windows = this._getAllWindows(monitor);
-        const { x, y } = activeRect;
+        const x = this._getCenterX(activeRect);
+        const y = this._getCenterY(activeRect);
         let bestCandidate = null;
+
         switch (id) {
         case SCHEMA_FOCUS_UP:
             windows.forEach(w => {
                 const rect = w.get_frame_rect();
-                if (rect.y < y) {
+                if (this._getCenterY(rect) < y) {
                     if (!bestCandidate) {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (rect.x === bestRect.x && rect.y > bestRect.y)
+                        if (this._getCenterX(rect) === this._getCenterX(bestRect) && this._getCenterY(rect) > this.getCenterY(bestRect))
                             bestCandidate = w;
                         else if (
-                            rect.x !== bestRect.x &&
-                Math.abs(activeRect.x - rect.x) < Math.abs(activeRect.x - bestRect.x)
+                            this._getCenterX(rect) !== this._getCenterX(bestRect) &&
+                            Math.abs(x - this._getCenterX(rect)) < Math.abs(x - this._getCenterX(bestRect))
                         )
                             bestCandidate = w;
                     }
@@ -140,16 +150,16 @@ export default class FocusChanger extends Extension {
         case SCHEMA_FOCUS_DOWN:
             windows.forEach(w => {
                 const rect = w.get_frame_rect();
-                if (rect.y > y) {
+                if (this._getCenterY(rect) > y) {
                     if (!bestCandidate) {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (rect.x === bestRect.x && rect.y < bestRect.y)
+                        if (this._getCenterX(rect) === this._getCenterX(bestRect) && this._getCenterY(rect) < this.getCenterY(bestRect))
                             bestCandidate = w;
                         else if (
-                            rect.x !== bestRect.x &&
-                Math.abs(activeRect.x - rect.x) < Math.abs(activeRect.x - bestRect.x)
+                            this._getCenterX(rect) !== this._getCenterX(bestRect) &&
+                            Math.abs(x - this._getCenterX(rect)) < Math.abs(x - this._getCenterX(bestRect))
                         )
                             bestCandidate = w;
                     }
@@ -159,16 +169,16 @@ export default class FocusChanger extends Extension {
         case SCHEMA_FOCUS_RIGHT:
             windows.forEach(w => {
                 const rect = w.get_frame_rect();
-                if (rect.x > x) {
+                if (this._getCenterX(rect) > x) {
                     if (!bestCandidate) {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (rect.y === bestRect.y && rect.x < bestRect.x)
+                        if (this._getCenterY(rect) === this.getCenterY(bestRect) && this._getCenterX(rect) < this._getCenterX(bestRect))
                             bestCandidate = w;
                         else if (
-                            rect.y !== bestRect.y &&
-                Math.abs(activeRect.y - rect.y) < Math.abs(activeRect.y - bestRect.y)
+                            this._getCenterY(rect) !== this.getCenterY(bestRect) &&
+                            Math.abs(y - this.getCenterY(rect)) < Math.abs(this.getCenterY(activeRect) - this.getCenterY(bestRect))
                         )
                             bestCandidate = w;
                     }
@@ -178,16 +188,16 @@ export default class FocusChanger extends Extension {
         case SCHEMA_FOCUS_LEFT:
             windows.forEach(w => {
                 const rect = w.get_frame_rect();
-                if (rect.x < x) {
+                if (this._getCenterX(rect) < x) {
                     if (!bestCandidate) {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (rect.y === bestRect.y && rect.x > bestRect.x)
+                        if (this._getCenterY(rect) === this.getCenterY(bestRect) && this._getCenterX(rect) > this._getCenterX(bestRect))
                             bestCandidate = w;
                         else if (
-                            rect.y !== bestRect.y &&
-                Math.abs(activeRect.y - rect.y) < Math.abs(activeRect.y - bestRect.y)
+                            this._getCenterY(rect) !== this.getCenterY(bestRect) &&
+                            Math.abs(y - this.getCenterY(rect)) < Math.abs(this.getCenterY(activeRect) - this.getCenterY(bestRect))
                         )
                             bestCandidate = w;
                     }
