@@ -6,6 +6,36 @@ import Adw from "gi://Adw";
 
 import { ExtensionPreferences,  gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
+const keyvalIsForbidden$1 = (keyval) => {
+    return [
+        Gdk.KEY_Home,
+        Gdk.KEY_Page_Up,
+        Gdk.KEY_Page_Down,
+        Gdk.KEY_End,
+        Gdk.KEY_Tab,
+        Gdk.KEY_KP_Enter,
+        Gdk.KEY_Return,
+        Gdk.KEY_Mode_switch,
+        Gdk.KEY_Space,
+    ].includes(keyval);
+};
+
+const isValidAccel$1 = (mask, keyval) => {
+    return (
+        Gtk.accelerator_valid(keyval, mask) ||
+        (keyval === Gdk.KEY_Tab && mask !== 0)
+    );
+};
+
+const isValidBinding$1 = (mask, keycode, keyval) => {
+    return (
+        mask !== 0 &&
+        keycode !== 0 &&
+        mask & ~(Gdk.ModifierType.SHIFT_MASK) &&
+        !(keyvalIsForbidden$1(keyval))
+    );
+};
+
 export default class FocusChangerPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         window._settings = this.getSettings();
@@ -119,35 +149,5 @@ export default class FocusChangerPreferences extends ExtensionPreferences {
         });
 
         window.add(page);
-    };
-};
-
-const keyvalIsForbidden$1 = (keyval) => {
-    return [
-        Gdk.KEY_Home,
-        Gdk.KEY_Page_Up,
-        Gdk.KEY_Page_Down,
-        Gdk.KEY_End,
-        Gdk.KEY_Tab,
-        Gdk.KEY_KP_Enter,
-        Gdk.KEY_Return,
-        Gdk.KEY_Mode_switch,
-        Gdk.KEY_Space,
-    ].includes(keyval);
-};
-
-const isValidAccel$1 = (mask, keyval) => {
-    return (
-        Gtk.accelerator_valid(keyval, mask) ||
-        (keyval === Gdk.KEY_Tab && mask !== 0)
-    );
-};
-
-const isValidBinding$1 = (mask, keycode, keyval) => {
-    return (
-        mask !== 0 &&
-        keycode !== 0 &&
-        mask & ~(Gdk.ModifierType.SHIFT_MASK) &&
-        !(keyvalIsForbidden$1(keyval))
-    );
-};
+    }
+}
