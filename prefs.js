@@ -4,7 +4,7 @@ import Gdk from "gi://Gdk";
 import Gtk from 'gi://Gtk';
 import Adw from "gi://Adw";
 
-import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { ExtensionPreferences,  gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 export default class FocusChangerPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
@@ -12,30 +12,30 @@ export default class FocusChangerPreferences extends ExtensionPreferences {
         window.set_default_size(650, 400);
 
         const page = Adw.PreferencesPage.new();
-        page.set_title(("Focus changer"));
+        page.set_title(_("Focus changer"));
         page.set_name("focus-changer-preferences");
 
         const group = Adw.PreferencesGroup.new();
-        group.set_title(("Shortcuts"));
+        group.set_title(_("Shortcuts"));
         group.set_name("shortcuts_group");
         page.add(group);
 
         let schemas = [
             {
                 id: "focus-up",
-                title: "Focus up",
+                title: _("Focus up"),
             },
             {
                 id: "focus-down",
-                title: "Focus down",
+                title: _("Focus down"),
             },
             {
                 id: "focus-left",
-                title: "Focus left",
+                title: _("Focus left"),
             },
             {
                 id: "focus-right",
-                title: "Focus right",
+                title: _("Focus right"),
             },
         ]
 
@@ -63,7 +63,7 @@ export default class FocusChangerPreferences extends ExtensionPreferences {
 
                 const content = new Adw.StatusPage({
                     title: schema.title,
-                    description: (`Press the shortcut for this action`),
+                    description: _("Press the shortcut for this action"),
                     icon_name: "preferences-desktop-keyboard-shortcuts-symbolic",
                 });
 
