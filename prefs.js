@@ -1,110 +1,153 @@
 'use strict';
 
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
-const ExtensionUtils = imports.misc.extensionUtils;
+import Gdk from "gi://Gdk";
+import Gtk from 'gi://Gtk';
+import Adw from "gi://Adw";
 
-const COLUMN_ID = 0;
-const COLUMN_DESC = 1;
-const COLUMN_KEY = 2;
-const COLUMN_MODS = 3;
+import { ExtensionPreferences,  gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-// eslint-disable-next-line no-unused-vars
-function init() {}
+const keyvalIsForbidden$1 = (keyval) => {
+    return [
+        Gdk.KEY_Home,
+        Gdk.KEY_Page_Up,
+        Gdk.KEY_Page_Down,
+        Gdk.KEY_End,
+        Gdk.KEY_Tab,
+        Gdk.KEY_KP_Enter,
+        Gdk.KEY_Return,
+        Gdk.KEY_Mode_switch,
+        Gdk.KEY_Space,
+    ].includes(keyval);
+};
 
-// eslint-disable-next-line no-unused-vars
-function buildPrefsWidget() {
-    const settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.focus-changer');
+const isValidAccel$1 = (mask, keyval) => {
+    return (
+        Gtk.accelerator_valid(keyval, mask) ||
+        (keyval === Gdk.KEY_Tab && mask !== 0)
+    );
+};
 
-    const prefsWidget = new Gtk.Grid({
-        margin_top: 20,
-        margin_bottom: 20,
-        margin_start: 20,
-        margin_end: 20,
-        row_spacing: 20,
-    });
+const isValidBinding$1 = (mask, keycode, keyval) => {
+    return (
+        mask !== 0 &&
+        keycode !== 0 &&
+        mask & ~(Gdk.ModifierType.SHIFT_MASK) &&
+        !(keyvalIsForbidden$1(keyval))
+    );
+};
 
-    const keybindingLabel = new Gtk.Label({
-        label: 'Keyboard shortcuts',
-        hexpand: true,
-        halign: Gtk.Align.START,
-    });
-    prefsWidget.attach(keybindingLabel, 0, 0, 1, 1);
+export default class FocusChangerPreferences extends ExtensionPreferences {
+    fillPreferencesWindow(window) {
+        window._settings = this.getSettings();
+        window.set_default_size(650, 400);
 
-    // Setup the store
-    let store = new Gtk.ListStore();
-    store.set_column_types([
-        GObject.TYPE_STRING, // COLUMN_ID
-        GObject.TYPE_STRING, // COLUMN_DESC
-        GObject.TYPE_INT, // COLUMN_KEY
-        GObject.TYPE_INT, // COLUMN_MODS
-    ]);
+        const page = Adw.PreferencesPage.new();
+        page.set_title(_("Focus changer"));
+        page.set_name("focus-changer-preferences");
 
-    addKeybinding(store, settings, 'focus-up', 'Focus up');
-    addKeybinding(store, settings, 'focus-down', 'Focus down');
-    addKeybinding(store, settings, 'focus-left', 'Focus left');
-    addKeybinding(store, settings, 'focus-right', 'Focus right');
+        const group = Adw.PreferencesGroup.new();
+        group.set_title(_("Shortcuts"));
+        group.set_name("shortcuts_group");
+        page.add(group);
 
-    let treeView = new Gtk.TreeView();
-    treeView.model = store;
-    treeView.headers_visible = false;
+        let schemas = [
+            {
+                id: "focus-up",
+                title: _("Focus up"),
+            },
+            {
+                id: "focus-down",
+                title: _("Focus down"),
+            },
+            {
+                id: "focus-left",
+                title: _("Focus left"),
+            },
+            {
+                id: "focus-right",
+                title: _("Focus right"),
+            },
+        ]
 
-    // Desc text
-    let renderer, column;
-    renderer = new Gtk.CellRendererText();
-    column = new Gtk.TreeViewColumn();
-    column.expand = true;
-    column.pack_start(renderer, true);
-    column.add_attribute(renderer, 'text', COLUMN_DESC);
-    treeView.append_column(column);
+        schemas.forEach(schema => {
+            const row = new Adw.ActionRow({
+                title: schema.title,
+                // subtitle: ("Shortcut to focus on the window above"),
+            });
 
-    // Key binding
-    renderer = new Gtk.CellRendererAccel();
-    renderer.accel_mode = Gtk.CellRendererAccelMode.GTK;
-    renderer.editable = true;
-    column = new Gtk.TreeViewColumn();
-    column.pack_end(renderer, false);
-    column.add_attribute(renderer, 'accel-key', COLUMN_KEY);
-    column.add_attribute(renderer, 'accel-mods', COLUMN_MODS);
-    treeView.append_column(column);
-    prefsWidget.attach(treeView, 0, 1, 2, 1);
+            const shortcutLabel = new Gtk.ShortcutLabel({
+                disabled_text: ("Select a shortcut"),
+                accelerator: window._settings.get_strv(schema.id)[0],
+                valign: Gtk.Align.CENTER,
+                halign: Gtk.Align.CENTER,
+            });
 
-    // Events
-    renderer.connect('accel-edited', (_, path, key, mods, __) => {
-        let [ok, iter] = store.get_iter_from_string(path);
-        if (!ok)
-            return;
+            window._settings.connect(`changed::${schema.id}`, () => {
+                shortcutLabel.set_accelerator(
+                    window._settings.get_strv(schema.id)[0]
+                );
+            });
 
-        store.set(iter, [COLUMN_KEY, COLUMN_MODS], [key, mods]);
+            row.connect("activated", () => {
+                const ctl = new Gtk.EventControllerKey();
 
-        let id = store.get_value(iter, COLUMN_ID);
-        let accelString = Gtk.accelerator_name(key, mods);
-        settings.set_strv(id, [accelString]);
-    });
+                const content = new Adw.StatusPage({
+                    title: schema.title,
+                    description: _("Press the shortcut for this action"),
+                    icon_name: "preferences-desktop-keyboard-shortcuts-symbolic",
+                });
 
-    renderer.connect('accel-cleared', (_, path) => {
-        let [ok, iter] = store.get_iter_from_string(path);
-        if (!ok)
-            return;
+                const editor = new Adw.Window({
+                    modal: true,
+                    transient_for: page.get_root(),
+                    hide_on_close: true,
+                    width_request: 320,
+                    height_request: 240,
+                    resizable: false,
+                    content,
+                });
 
-        store.set(iter, [COLUMN_KEY, COLUMN_MODS], [0, 0]);
+                editor.add_controller(ctl);
+                ctl.connect("key-pressed", (_, keyval, keycode, state) => {
+                    let mask = state & Gtk.accelerator_get_default_mod_mask();
+                    mask &= ~Gdk.ModifierType.LOCK_MASK;
 
-        let id = store.get_value(iter, COLUMN_ID);
-        settings.set_strv(id, []);
-    });
+                    if (
+                        !mask &&
+                        (keyval === Gdk.KEY_Escape || keyval === Gdk.KEY_BackSpace)
+                    ) {
+                        editor.close();
+                        return Gdk.EVENT_STOP;
+                    }
 
-    return prefsWidget;
-}
+                    if (
+                        !isValidBinding$1(mask, keycode, keyval) ||
+                        !isValidAccel$1(mask, keyval)
+                    ) {
+                        return Gdk.EVENT_STOP;
+                    }
 
-function addKeybinding(model, settings, id, description) {
-    // Get the current accelerator.
-    let accelerator = settings.get_strv(id)[0];
-    let key, mods;
-    if (!accelerator)
-        [key, mods] = [0, 0];
-    else
-        [, key, mods] = Gtk.accelerator_parse(accelerator);
+                    window._settings.set_strv(schema.id, [
+                        Gtk.accelerator_name_with_keycode(
+                            null,
+                            keyval,
+                            keycode,
+                            mask
+                        ),
+                    ]);
 
-    let row = model.insert(100);
-    model.set(row, [COLUMN_ID, COLUMN_DESC, COLUMN_KEY, COLUMN_MODS], [id, description, key, mods]);
+                    editor.destroy();
+                    return Gdk.EVENT_STOP;
+                });
+
+                editor.present();
+            });
+
+            row.add_suffix(shortcutLabel);
+            row.activatable_widget = shortcutLabel;
+            group.add(row);
+        });
+
+        window.add(page);
+    }
 }
