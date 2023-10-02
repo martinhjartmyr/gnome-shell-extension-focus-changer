@@ -6,5 +6,8 @@
   "shell-version": ["45"],
   "url": "https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer",
   "settings-schema": "org.gnome.shell.extensions.focus-changer",
-  "gettext-domain": "focus-changer@heartmire"
+  "gettext-domain": "focus-changer@heartmire",
+  "donations": {
+      "kofi": "heartmire"
+  }
 }
