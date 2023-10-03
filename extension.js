@@ -304,5 +304,6 @@ export default class FocusChanger extends Extension {
     disable() {
         this._unbindShortcut();
         this._settings = null;
+        this._activeWindow = null;
     }
 }
