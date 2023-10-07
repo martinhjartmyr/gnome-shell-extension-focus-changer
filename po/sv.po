@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Martin Hjärtmyr, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 15\n"
+"Report-Msgid-Bugs-To: https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer\n"
+"POT-Creation-Date: 2023-09-30 21:31-0300\n"
+"PO-Revision-Date: 2023-10-05 20:38+0200\n"
+"Last-Translator: Martin Hjärtmyr\n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#: prefs.js:15
+msgid "Focus changer"
+msgstr ""
+
+#: prefs.js:19
+msgid "Shortcuts"
+msgstr "Genvägar"
+
+#: prefs.js:26
+msgid "Focus up"
+msgstr "Fokusera uppåt"
+
+#: prefs.js:30
+msgid "Focus down"
+msgstr "Fokusera neråt"
+
+#: prefs.js:34
+msgid "Focus left"
+msgstr "Fokusera vänster"
+
+#: prefs.js:38
+msgid "Focus right"
+msgstr "Fokusera höger"
+
+#: prefs.js:66
+msgid "Press the shortcut for this action"
+msgstr "Ange tangentbordskombinationen för genväg"
