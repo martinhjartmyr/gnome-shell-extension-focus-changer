@@ -136,7 +136,7 @@ export default class FocusChanger extends Extension {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (this._getCenterX(rect) === this._getCenterX(bestRect) && this._getCenterY(rect) > this.getCenterY(bestRect))
+                        if (this._getCenterX(rect) === this._getCenterX(bestRect) && this._getCenterY(rect) > this._getCenterY(bestRect))
                             bestCandidate = w;
                         else if (
                             this._getCenterX(rect) !== this._getCenterX(bestRect) &&
@@ -155,7 +155,7 @@ export default class FocusChanger extends Extension {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (this._getCenterX(rect) === this._getCenterX(bestRect) && this._getCenterY(rect) < this.getCenterY(bestRect))
+                        if (this._getCenterX(rect) === this._getCenterX(bestRect) && this._getCenterY(rect) < this._getCenterY(bestRect))
                             bestCandidate = w;
                         else if (
                             this._getCenterX(rect) !== this._getCenterX(bestRect) &&
@@ -174,11 +174,11 @@ export default class FocusChanger extends Extension {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (this._getCenterY(rect) === this.getCenterY(bestRect) && this._getCenterX(rect) < this._getCenterX(bestRect))
+                        if (this._getCenterY(rect) === this._getCenterY(bestRect) && this._getCenterX(rect) < this._getCenterX(bestRect))
                             bestCandidate = w;
                         else if (
-                            this._getCenterY(rect) !== this.getCenterY(bestRect) &&
-                            Math.abs(y - this.getCenterY(rect)) < Math.abs(this.getCenterY(activeRect) - this.getCenterY(bestRect))
+                            this._getCenterY(rect) !== this._getCenterY(bestRect) &&
+                            Math.abs(y - this._getCenterY(rect)) < Math.abs(this._getCenterY(activeRect) - this._getCenterY(bestRect))
                         )
                             bestCandidate = w;
                     }
@@ -193,11 +193,11 @@ export default class FocusChanger extends Extension {
                         bestCandidate = w;
                     } else {
                         const bestRect = bestCandidate.get_frame_rect();
-                        if (this._getCenterY(rect) === this.getCenterY(bestRect) && this._getCenterX(rect) > this._getCenterX(bestRect))
+                        if (this._getCenterY(rect) === this._getCenterY(bestRect) && this._getCenterX(rect) > this._getCenterX(bestRect))
                             bestCandidate = w;
                         else if (
-                            this._getCenterY(rect) !== this.getCenterY(bestRect) &&
-                            Math.abs(y - this.getCenterY(rect)) < Math.abs(this.getCenterY(activeRect) - this.getCenterY(bestRect))
+                            this._getCenterY(rect) !== this._getCenterY(bestRect) &&
+                            Math.abs(y - this._getCenterY(rect)) < Math.abs(this._getCenterY(activeRect) - this._getCenterY(bestRect))
                         )
                             bestCandidate = w;
                     }
