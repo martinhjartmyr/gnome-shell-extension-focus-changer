@@ -3,7 +3,7 @@
   "description": "Change focus between windows in all directions.\n\nThe extension will first try to find a suitable window within the same monitor. If there is none, it will try to find one on the next monitor in that direction (in a multi-monitor setup).\n\nDefault shortcuts (can be changed in preferences):\n<Super>+h = Focus left\n<Super>+j = Focus down\n<Super>+k = Focus up\n<Super>+l = Focus right",
   "uuid": "focus-changer@heartmire",
   "version": 18,
-  "shell-version": ["45"],
+  "shell-version": ["45", "46"],
   "url": "https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer",
   "settings-schema": "org.gnome.shell.extensions.focus-changer",
   "gettext-domain": "focus-changer@heartmire",
