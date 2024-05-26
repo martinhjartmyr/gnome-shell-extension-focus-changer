@@ -1,12 +1,15 @@
 'use strict';
 
-import Gdk from "gi://Gdk";
+import Adw from 'gi://Adw';
+import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
-import Adw from "gi://Adw";
 
-import { ExtensionPreferences,  gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {
+    ExtensionPreferences,
+    gettext as _,
+} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-const keyvalIsForbidden$1 = (keyval) => {
+const keyvalIsForbidden$1 = keyval => {
     return [
         Gdk.KEY_Home,
         Gdk.KEY_Page_Up,
@@ -31,8 +34,8 @@ const isValidBinding$1 = (mask, keycode, keyval) => {
     return (
         mask !== 0 &&
         keycode !== 0 &&
-        mask & ~(Gdk.ModifierType.SHIFT_MASK) &&
-        !(keyvalIsForbidden$1(keyval))
+        mask & ~Gdk.ModifierType.SHIFT_MASK &&
+        !keyvalIsForbidden$1(keyval)
     );
 };
 
@@ -42,32 +45,32 @@ export default class FocusChangerPreferences extends ExtensionPreferences {
         window.set_default_size(650, 400);
 
         const page = Adw.PreferencesPage.new();
-        page.set_title(_("Focus changer"));
-        page.set_name("focus-changer-preferences");
+        page.set_title(_('Focus changer'));
+        page.set_name('focus-changer-preferences');
 
         const group = Adw.PreferencesGroup.new();
-        group.set_title(_("Shortcuts"));
-        group.set_name("shortcuts_group");
+        group.set_title(_('Shortcuts'));
+        group.set_name('shortcuts_group');
         page.add(group);
 
         let schemas = [
             {
-                id: "focus-up",
-                title: _("Focus up"),
+                id: 'focus-up',
+                title: _('Focus up'),
             },
             {
-                id: "focus-down",
-                title: _("Focus down"),
+                id: 'focus-down',
+                title: _('Focus down'),
             },
             {
-                id: "focus-left",
-                title: _("Focus left"),
+                id: 'focus-left',
+                title: _('Focus left'),
             },
             {
-                id: "focus-right",
-                title: _("Focus right"),
+                id: 'focus-right',
+                title: _('Focus right'),
             },
-        ]
+        ];
 
         schemas.forEach(schema => {
             const row = new Adw.ActionRow({
@@ -76,7 +79,7 @@ export default class FocusChangerPreferences extends ExtensionPreferences {
             });
 
             const shortcutLabel = new Gtk.ShortcutLabel({
-                disabled_text: ("Select a shortcut"),
+                disabled_text: 'Select a shortcut',
                 accelerator: window._settings.get_strv(schema.id)[0],
                 valign: Gtk.Align.CENTER,
                 halign: Gtk.Align.CENTER,
@@ -88,13 +91,14 @@ export default class FocusChangerPreferences extends ExtensionPreferences {
                 );
             });
 
-            row.connect("activated", () => {
+            row.connect('activated', () => {
                 const ctl = new Gtk.EventControllerKey();
 
                 const content = new Adw.StatusPage({
                     title: schema.title,
-                    description: _("Press the shortcut for this action"),
-                    icon_name: "preferences-desktop-keyboard-shortcuts-symbolic",
+                    description: _('Press the shortcut for this action'),
+                    icon_name:
+                        'preferences-desktop-keyboard-shortcuts-symbolic',
                 });
 
                 const editor = new Adw.Window({
@@ -108,13 +112,14 @@ export default class FocusChangerPreferences extends ExtensionPreferences {
                 });
 
                 editor.add_controller(ctl);
-                ctl.connect("key-pressed", (_, keyval, keycode, state) => {
+                ctl.connect('key-pressed', (_, keyval, keycode, state) => {
                     let mask = state & Gtk.accelerator_get_default_mod_mask();
                     mask &= ~Gdk.ModifierType.LOCK_MASK;
 
                     if (
                         !mask &&
-                        (keyval === Gdk.KEY_Escape || keyval === Gdk.KEY_BackSpace)
+                        (keyval === Gdk.KEY_Escape ||
+                            keyval === Gdk.KEY_BackSpace)
                     ) {
                         editor.close();
                         return Gdk.EVENT_STOP;
