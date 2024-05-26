@@ -1,0 +1,24 @@
+{
+    "name": "gnome-shell-extension-focus-changer",
+    "version": "0.0.0",
+    "description": "Change focus between windows in all directions.",
+    "type": "module",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:martinhjartmyr/gnome-shell-extension-focus-changer.git"
+    },
+    "author": "Martin Hjärtmyr",
+    "bugs": {
+        "url": "https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer/issues"
+    },
+    "homepage": "https://github.com/martinhjartmyr/gnome-shell-extension-focus-changer",
+    "sideEffects": false,
+    "sourceType": "module",
+    "packageManager": "pnpm@8.3.1+sha256.ce038ba2617f7a93d0b1f24b733b9d64258b15c97a14c6f37673c8d49e033d9a",
+    "dependencies": {
+        "@eslint/js": "^9.3.0",
+        "eslint": "^9.3.0",
+        "prettier": "^3.2.5"
+    }
+}
