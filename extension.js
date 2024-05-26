@@ -48,17 +48,18 @@ export default class FocusChanger extends Extension {
         let activeMonitor = null;
         const monitors = [];
         for (let i = 0; i < numberOfMonitors; i++) {
-            if (i === activeMonitorId)
+            if (i === activeMonitorId) {
                 activeMonitor = this._activeWindow
                     .get_display()
                     .get_monitor_geometry(i);
-            else
+            } else {
                 monitors.push({
                     id: i,
                     rect: this._activeWindow
                         .get_display()
                         .get_monitor_geometry(i),
                 });
+            }
         }
 
         if (!activeMonitor || !monitors.length) return null;
@@ -70,9 +71,9 @@ export default class FocusChanger extends Extension {
                     if (m.rect.y < activeMonitor.y) {
                         if (!bestMonitorCandidate) bestMonitorCandidate = m;
                         else if (
-                            Math.abs(activeMonitor.x - m.rect.x) <
+                            Math.abs(activeMonitor.y - m.rect.y) <
                             Math.abs(
-                                activeMonitor.x - bestMonitorCandidate.rect.x
+                                activeMonitor.y - bestMonitorCandidate.rect.y
                             )
                         )
                             bestMonitorCandidate = m;
@@ -84,9 +85,9 @@ export default class FocusChanger extends Extension {
                     if (m.rect.y > activeMonitor.y) {
                         if (!bestMonitorCandidate) bestMonitorCandidate = m;
                         else if (
-                            Math.abs(activeMonitor.x - m.rect.x) <
+                            Math.abs(activeMonitor.y - m.rect.y) <
                             Math.abs(
-                                activeMonitor.x - bestMonitorCandidate.rect.x
+                                activeMonitor.y - bestMonitorCandidate.rect.y
                             )
                         )
                             bestMonitorCandidate = m;
@@ -98,9 +99,9 @@ export default class FocusChanger extends Extension {
                     if (m.rect.x > activeMonitor.x) {
                         if (!bestMonitorCandidate) bestMonitorCandidate = m;
                         else if (
-                            Math.abs(activeMonitor.y - m.rect.y) <
+                            Math.abs(activeMonitor.x - m.rect.x) <
                             Math.abs(
-                                activeMonitor.y - bestMonitorCandidate.rect.y
+                                activeMonitor.x - bestMonitorCandidate.rect.x
                             )
                         )
                             bestMonitorCandidate = m;
@@ -112,9 +113,9 @@ export default class FocusChanger extends Extension {
                     if (m.rect.x < activeMonitor.x) {
                         if (!bestMonitorCandidate) bestMonitorCandidate = m;
                         else if (
-                            Math.abs(activeMonitor.y - m.rect.y) <
+                            Math.abs(activeMonitor.x - m.rect.x) <
                             Math.abs(
-                                activeMonitor.y - bestMonitorCandidate.rect.y
+                                activeMonitor.x - bestMonitorCandidate.rect.x
                             )
                         )
                             bestMonitorCandidate = m;
