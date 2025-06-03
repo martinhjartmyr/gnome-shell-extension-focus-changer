@@ -143,6 +143,9 @@ export default class FocusChanger extends Extension {
         const y = this._getCenterY(activeRect);
         let bestCandidate = null;
 
+        // Sort windows such that most recently used window is first (ie. near the top)
+        windows.sort((a, b) => b.user_time - a.user_time);
+
         switch (id) {
             case SCHEMA_FOCUS_UP:
                 windows.forEach(w => {
