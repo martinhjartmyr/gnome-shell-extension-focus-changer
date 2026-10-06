@@ -5,13 +5,15 @@ Change focus between windows in all directions using your keyboard. The extensio
 ## Default shortcuts:
 
 ```
-<Super>+h = Focus left
-<Super>+j = Focus down
-<Super>+k = Focus up
-<Super>+l = Focus right
+<Ctrl><Super>+Left  = Focus left
+<Ctrl><Super>+Down  = Focus down
+<Ctrl><Super>+Up    = Focus up
+<Ctrl><Super>+Right = Focus right
 ```
 
 They can all be changed in the extension preferences.
+
+Earlier versions used `<Super>+h/j/k/l`. Those clash with stock GNOME, where `<Super>+h` minimizes the window and `<Super>+l` locks the screen. Shortcuts you have customised are kept. If you prefer the old keys, set them again in the preferences.
 
 ## Installation
 
